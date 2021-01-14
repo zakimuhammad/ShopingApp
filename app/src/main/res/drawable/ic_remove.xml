@@ -5,6 +5,6 @@
     android:viewportHeight="24"
     android:tint="@color/white">
   <path
-      android:fillColor="@color/minus_button"
+      android:fillColor="@color/red"
       android:pathData="M19,13H5v-2h14v2z"/>
 </vector>

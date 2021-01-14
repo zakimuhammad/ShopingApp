@@ -1,10 +1,7 @@
 package com.zaki.twiscodeshop.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ShopDao {
@@ -17,4 +14,7 @@ interface ShopDao {
 
     @Query("UPDATE shop SET quantity=:quantity WHERE id=:id")
     suspend fun updateItemQuantity(id: String, quantity: Int)
+
+    @Delete
+    suspend fun deleteItemShop(shop: DatabaseModel)
 }

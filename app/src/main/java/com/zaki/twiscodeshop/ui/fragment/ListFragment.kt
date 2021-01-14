@@ -2,6 +2,7 @@ package com.zaki.twiscodeshop.ui.fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import com.zaki.twiscodeshop.databinding.FragmentListBinding
 import com.zaki.twiscodeshop.ui.MainActivity
 import com.zaki.twiscodeshop.ui.viewmodel.ShopViewModel
 import com.zaki.twiscodeshop.utils.Resource
+import kotlin.math.min
 
 class ListFragment : Fragment() {
 
@@ -26,8 +28,8 @@ class ListFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentListBinding.inflate(inflater, container, false)
@@ -41,7 +43,7 @@ class ListFragment : Fragment() {
         setupRecyclerView()
 
         viewModel.shopData.observe(viewLifecycleOwner, { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { shopResponse ->
@@ -62,18 +64,16 @@ class ListFragment : Fragment() {
             }
         })
 
+        viewModel.getSavedShop().observe(viewLifecycleOwner, { shop ->
+            mCartItemCount = shop.size
+        })
+
         shopAdapter.setOnItemClickListener {
             viewModel.saveShopData(it)
+            mCartItemCount++
+            setupBadge()
             Snackbar.make(requireActivity().findViewById(R.id.fragmentList), "Item Successfully Added to Cart", Snackbar.LENGTH_SHORT).show()
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menuCart) {
-            findNavController().navigate(R.id.action_listFragment_to_keranjangFragment)
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private var isLoading = false
@@ -97,8 +97,43 @@ class ListFragment : Fragment() {
         }
     }
 
+    private lateinit var textCartItemCount: TextView
+    var mCartItemCount = 0
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu, menu)
+
+        val menuItem = menu.findItem(R.id.action_cart)
+
+        val actionView = menuItem.actionView
+        textCartItemCount = actionView.findViewById(R.id.cart_badge)
+
+        setupBadge()
+
+        actionView.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_cart) {
+            findNavController().navigate(R.id.action_listFragment_to_keranjangFragment)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupBadge() {
+        if (mCartItemCount == 0) {
+            if (textCartItemCount.visibility != View.GONE) {
+                textCartItemCount.visibility = View.GONE
+            }
+        } else {
+            textCartItemCount.text = min(mCartItemCount, 99).toString()
+            if (textCartItemCount.visibility != View.VISIBLE) {
+                textCartItemCount.visibility = View.VISIBLE
+            }
+        }
     }
 }

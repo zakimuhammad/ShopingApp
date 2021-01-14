@@ -12,4 +12,6 @@ class ShopRepository(private val db: ShopDatabase) {
     fun getAllSavedShop() = db.getShopDao().getAllShop()
 
     suspend fun updateQuantityItem(id: String, quantity: Int) = db.getShopDao().updateItemQuantity(id, quantity)
+
+    suspend fun deleteShopItem(shop: DatabaseModel) = db.getShopDao().deleteItemShop(shop)
 }

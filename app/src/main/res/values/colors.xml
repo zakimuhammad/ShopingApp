@@ -9,5 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FFB74D</color>
     <color name="plus_button">#1E88E5</color>
-    <color name="minus_button">#E53935</color>
+    <color name="red">#E53935</color>
 </resources>

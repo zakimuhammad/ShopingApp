@@ -35,6 +35,8 @@ class ShopViewModel(
 
     fun updateItem(id: String, quantity: Int) = viewModelScope.launch { repository.updateQuantityItem(id, quantity) }
 
+    fun deleteShopItem(shop: DatabaseModel) = viewModelScope.launch { repository.deleteShopItem(shop) }
+
     fun getSavedShop() = repository.getAllSavedShop()
 
     private suspend fun safeShopItemCall() {

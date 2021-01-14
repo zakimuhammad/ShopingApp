@@ -85,7 +85,7 @@
         android:id="@+id/btnMinus"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:background="@color/minus_button"
+        android:background="@color/red"
         android:src="@drawable/ic_remove"
         app:layout_constraintEnd_toStartOf="@id/tvItemQuantity"
         app:layout_constraintHorizontal_chainStyle="spread"
