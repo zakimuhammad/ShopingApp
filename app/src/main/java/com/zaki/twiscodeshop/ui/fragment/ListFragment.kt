@@ -3,7 +3,6 @@ package com.zaki.twiscodeshop.ui.fragment
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -58,7 +57,7 @@ class ListFragment : Fragment() {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Snackbar.make(view, "An Error Occurred $message", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }

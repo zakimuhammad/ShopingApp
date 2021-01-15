@@ -72,7 +72,6 @@ class KeranjangFragment : Fragment() {
             binding.tvTotalPrice.text = String.format("Rp. %s", total)
 
             cartAdapter.differ.submitList(shop)
-            cartAdapter.notifyDataSetChanged()
         })
     }
 
