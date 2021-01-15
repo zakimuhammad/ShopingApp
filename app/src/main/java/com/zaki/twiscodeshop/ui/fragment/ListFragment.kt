@@ -58,7 +58,7 @@ class ListFragment : Fragment() {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An Error Occurred: $message", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(view, "An Error Occurred $message", Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
